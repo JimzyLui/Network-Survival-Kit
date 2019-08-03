@@ -1,5 +1,9 @@
 #!/usr/bin/python3
 
+## **1. System Info Tool** - This tool will grab the hostname of the target machine.
+#   - This tool will need to use the socket module.
+#   - It will print the hostname to stdout in the format of: "The hostname is: NoSoupForYou"
+
 import argparse
 from socket import getfqdn
 
@@ -28,5 +32,5 @@ def sys_info_tool(ip):
 # def main():
     # sys_info_tool(ip)
 
-
-sys_info_tool(ip)
+if __name__ == "__main__":
+    sys_info_tool(ip)
