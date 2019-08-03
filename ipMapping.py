@@ -23,7 +23,7 @@ print(args)
 
 url = args.url or ''
 
-def ip_mapper(url):
+def ip_mapping(url):
     ip = gethostbyname(url)
     print_rpt_line(url, ip)
     return ip
@@ -31,4 +31,4 @@ def ip_mapper(url):
 def print_rpt_line(url, ip):
     print("The IP address of {} is: {}".format(url, ip))
 
-ip_mapper(url)
+ip_mapping(url)
