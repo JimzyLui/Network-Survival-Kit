@@ -7,27 +7,74 @@
 #  - It will be able to scan any range of ports.
 #  - It will generate a report in the format of: "Port 80: OPEN"
 
+# scan 1-65k? or 45K?
 
 import argparse
 import socket
-import sys
+# import sys
+import ipMapping
+
 
 
 # create parser
-parser = argparse.ArgumentParser(
-    prog="Network Survival Kit",
-    description="Command line networking tool kit"
-)
+# parser = argparse.ArgumentParser(
+#     prog="portScanner",
+#     description="Scans ports on a host or ip address",
+#     add_help=True
+# )
 
-parser.add_argument("url", nargs='?', default='', help="Get info from URL")
+# parser = argparse.ArgumentParser(
+#     description="Scans ports on a host or ip address"
+# )
 
-args = parser.parse_args()
-print(args)
 
-url = args.url or ''
 
-def port_scanner(domain_or_ip):
-    pass
+# print('domain: {}'.format(domain_or_ip))
+# print('portfrom: {}'.format(portfrom))
+# print('portto: {}'.format(portto))
+
+def port_scanner(domain_or_ip, portfrom, portto):
+    ip = ipMapping.ip_mapping(domain_or_ip)
+
+    if portto=='':
+        portto = portfrom
+        portfrom = 1
+    for port in range(int(portfrom), int(portto)):
+        # check the port
+        scan_port(ip, port)
+    
+
+def scan_port(ip, port):
+    print('Scanning port {}'.format(port))
+    # info = socket.getaddrinfo(ip, port)
+
+    # set the default timeout to 1 sec
+    socket.setdefaulttimeout(1)
+
+    # create socket
+    s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    
+    # get socket to connect
+    response_code = s.connect_ex((ip,port))
+    if response_code==0:
+        print_rpt_line(port, 'Open')
+
+    s.close()
+    # print(info)
+
 
 def print_rpt_line(port, status):
     print("Port {}: {}".format(port, status))
+
+
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser(prog='test')
+
+    parser.add_argument("domain_or_ip", help="Domain or IP address")
+    parser.add_argument("--portfrom", default='5', help="Starting port or port range starting at 1")
+    parser.add_argument("--portto", default='', help="upper port in port range")
+
+    args = parser.parse_args()
+    print(args)
+    port_scanner(args.domain_or_ip, args.portfrom, args.portto)
+
