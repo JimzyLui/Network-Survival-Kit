@@ -10,18 +10,7 @@ import argparse
 from socket import gethostbyname
 
 
-# create parser
-parser = argparse.ArgumentParser(
-    prog="Network Survival Kit",
-    description="Command line networking tool kit"
-)
 
-parser.add_argument("url", nargs='?', default='', help="Get ip from the domain")
-
-args = parser.parse_args()
-#print(args)
-
-url = args.url or ''
 
 def ip_mapping(url):
     ip = gethostbyname(url)
@@ -33,5 +22,17 @@ def print_rpt_line(url, ip):
 
 
 if __name__ == "__main__":
+    # create parser
+    parser = argparse.ArgumentParser(
+        prog="ipMapping",
+        description="Command line networking tool kit"
+    )
+
+    parser.add_argument("url", nargs='?', default='', help="Get ip from the domain")
+
+    args = parser.parse_args()
+    #print(args)
+
+    url = args.url or ''
     ip_mapping(url)
 
