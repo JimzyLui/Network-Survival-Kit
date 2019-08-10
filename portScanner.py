@@ -13,17 +13,22 @@ import argparse
 import socket
 # import sys
 import ipMapping
+import dataCollector
 
 
-def port_scanner(domain_or_ip, portfrom, portto, verbose_tf):
-    ip = ipMapping.ip_mapping(domain_or_ip)
+def run(domain_or_ip, portfrom, portto, verbose_tf):
+    dataCollector.start()
+    ip = ipMapping.run(domain_or_ip)
 
     if portto=='':
         portto = portfrom
         portfrom = 1
+    summary = ''
     for port in range(int(portfrom), int(portto)):
         # check the port
-        scan_port(ip, port, verbose_tf)
+        rpt_line = scan_port(ip, port, verbose_tf)
+        summary += rpt_line
+    dataCollector.collect(summary)
     
 
 def scan_port(ip, port, verbose_tf):
@@ -39,15 +44,18 @@ def scan_port(ip, port, verbose_tf):
     
     # get socket to connect
     response_code = s.connect_ex((ip,port))
+    rpt_line = ''
     if response_code==0:
-        print_rpt_line(port, 'Open')
+        rpt_line = print_rpt_line(port, 'Open')
 
     s.close()
-    # print(info)
+    return rpt_line
 
 
 def print_rpt_line(port, status):
-    print("Port {}: {}".format(port, status))
+    rpt_line = f"Port {port}: {status}"
+    print(rpt_line)
+    return rpt_line
 
 
 if __name__ == "__main__":
@@ -72,5 +80,5 @@ if __name__ == "__main__":
         print('portto: {}'.format(args.portto))
         # print(args)
 
-    port_scanner(args.domain_or_ip, args.portfrom, args.portto, verbose)
+    run(args.domain_or_ip, args.portfrom, args.portto, verbose)
 

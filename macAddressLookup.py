@@ -11,19 +11,20 @@ import argparse
 import urllib.request
 import json
 import codecs
+import dataCollector
 
 
 
-def mac_address_lookup(addr):
+def run(addr):
+    dataCollector.start()
     api_url = 'http://macvendors.co/api'
     url_req = f"{api_url}/{addr}/json"
-    #print(f"{url_req}")
     with urllib.request.urlopen(url_req) as resp:
         results = json.load(resp)
-        #print(results)
 
     # print_rpt_line(url, ip)
-    print_rpt_line(results['result']['company'], results['result']['address'])
+    rpt_line = print_rpt_line(results['result']['company'], results['result']['address'])
+    dataCollector.collect(rpt_line)
     return 
 
 
@@ -48,7 +49,7 @@ if __name__ == "__main__":
     print(f"Mac Address: {mac_address}")
 
     if len(mac_address) == 12:
-        mac_address_lookup(mac_address)
+        run(mac_address)
     else:
         print(f"Invalid mac address.  It should be in the following format: XX-XX-XX-XX-XX-XX")
 
