@@ -38,6 +38,7 @@ def collect(strRptRow):
     global rpt
     end()
     write_data(strRptRow)
+    print("\n")     # blank line on the screen
     pass
 
 def write_data(strRptRow):

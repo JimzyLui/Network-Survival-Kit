@@ -19,26 +19,27 @@ if __name__ == "__main__":
         description="Command line networking tool kit"
     )
 
-    parser.add_argument("--collect", action='store_true', help="collect the data and print out a summary report")
-    parser.add_argument("--ip_map", help="ip mapping")
-    parser.add_argument("--mac_lookup", help="mac address lookup")
-    parser.add_argument("--port_scan", nargs=3, help="port scanner")
-    parser.add_argument("--sys_info", help="system info")
-    parser.add_argument("--client_browser", help="client browser")
-    parser.add_argument("--verbose", action='store_true', help="Show processing details")
+    parser.add_argument("-c", "--collect", action='store_true', help="collect the data and print out a summary report")
+    parser.add_argument("-i", "--ip_map", dest='ip', help="ip mapping")
+    parser.add_argument("-m", "--mac_lookup", dest='mac', help="mac address lookup")
+    parser.add_argument("-p", "--port_scan", dest='p', nargs='+', help="port scanner")
+    parser.add_argument("-s", "--sys_info", help="system info")
+    parser.add_argument("-b", "--client_browser", dest='url', help="client browser")
+    parser.add_argument("-v", "--verbose", action='store_true', help="Show processing details")
 
     args = parser.parse_args()
-    #print(args)
+    print(args)
 
     collect_data = args.collect
-    if args.ip_map:
-        ipMapping.run(args.ip_map)
-    if args.mac_lookup:
-        macAddressLookup.run(args.mac_lookup)
-    # if args.port_scan:
-        # portScanner.run(args.port_scan)
+    if args.ip:
+        ipMapping.run(args.ip)
+    if args.mac:
+        macAddressLookup.run(args.mac)
+    if args.p:
+        portScanner.run(args.p[0], args.p[1],args.p[2], args.verbose)
     if args.sys_info:
         sysInfoTool.run(args.sys_info)
-    if args.client_browser:
-        clientBrowser.run(args.client_browser, args.verbose)
+    if args.url:
+        clientBrowser.run(args.url, args.verbose)
+    # still have to read or cat 'rpt.txt'
 

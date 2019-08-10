@@ -9,3 +9,18 @@ Time to run: 0:00:00.010117 ms
 The IP address of www.google.com is: 216.58.193.196
 Time to run: 0:00:00.009538 ms
 
+The IP address of www.google.com is: 172.217.14.68
+Time to run: 0:00:00.018557 ms
+
+The IP address of www.google.com is: 172.217.14.68
+Time to run: 0:00:00.011334 ms
+
+The IP address of www.google.com is: 216.58.217.196
+Time to run: 0:00:00.015949 ms
+
+The IP address of www.google.com is: 216.58.217.196
+Time to run: 0:00:00.004268 ms
+
+Port 21: OpenPort 80: Open
+Time to run: 0:01:00.232434 ms
+
