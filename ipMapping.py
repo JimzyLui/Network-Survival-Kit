@@ -8,17 +8,20 @@
 
 import argparse
 from socket import gethostbyname
+import dataCollector
 
 
-
-
-def ip_mapping(url):
+def run(url):
+    dataCollector.start()
     ip = gethostbyname(url)
-    print_rpt_line(url, ip)
+    rpt_line = print_rpt_line(url, ip)
+    dataCollector.collect(rpt_line)
     return ip
 
 def print_rpt_line(url, ip):
-    print("The IP address of {} is: {}".format(url, ip))
+    rpt_line = f"The IP address of {url} is: {ip}"
+    print(rpt_line)
+    return rpt_line
 
 
 if __name__ == "__main__":
@@ -31,8 +34,6 @@ if __name__ == "__main__":
     parser.add_argument("url", nargs='?', default='', help="Get ip from the domain")
 
     args = parser.parse_args()
-    #print(args)
 
-    url = args.url or ''
-    ip_mapping(url)
+    run(args.url)
 

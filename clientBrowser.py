@@ -10,28 +10,30 @@
 
 import argparse
 import urllib.request
+import dataCollector
 
 
-def client_browser(url, verbose_tf):
+def run(url, verbose_tf):
+    dataCollector.start()
     url = check_url(url)
     req = urllib.request.Request(url)
-    # print(req)
     with urllib.request.urlopen(req) as obj_response:
-        # html = obj_response.read().decode("utf-8")
         #print(html)
         url_real = obj_response.geturl()
         info = obj_response.info()
         statuscode = obj_response.getcode()
         header = obj_response.getheaders()
-        print('URL: {}'.format(url))
-        print(f'Real URL: {url_real}')
-        print('Request Status: {}'.format(statuscode))
-        # print_header(header)
-        # html = obj_response.read()
-        print(f'Request Header Info: {header}')
-        print(f'Server Info: {info}')
+
+        # build data summary
+        data = f"URL: {url}\n"
+        data += f'Real URL: {url_real}'
+        data += f'Request Status: {statuscode}'
+        data += f'Request Header Info: {header}'
+        data += f'Server Info: {info}'
         html = obj_response.read(9000).decode('utf-8')
-        print(f"HTML:\n{html}")
+        data += f"HTML:\n{html}"
+        dataCollector.collect(data)
+        print(data)
 
 
 def check_url(url):
@@ -73,5 +75,5 @@ if __name__ == "__main__":
     if verbose:
         print('url: {}'.format(args.url))
                       
-    client_browser(args.url, verbose)
+    run(args.url, verbose)
 
